@@ -1,14 +1,9 @@
-# Usar uma imagem base do OpenJDK
-FROM openjdk:17-jdk-alpine
-
-# Definir o diretório de trabalho
+FROM maven:3.8.5-openjdk-17 AS build
 WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
-# Copiar o arquivo JAR para o contêiner
-COPY target/KeepAlive-0.0.1-SNAPSHOT.jar app.jar
-
-# Expor a porta que sua aplicação vai usar (por exemplo, 8080)
+FROM openjdk:17.0.1-jdk-slim
+COPY --from=build /target/KeepAlive-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
-
-# Comando para rodar a aplicação
 ENTRYPOINT ["java", "-jar", "app.jar"]
