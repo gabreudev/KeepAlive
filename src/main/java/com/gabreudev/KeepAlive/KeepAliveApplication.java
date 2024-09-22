@@ -23,7 +23,7 @@ public class KeepAliveApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(KeepAliveApplication.class, args);
 	}
-	@Scheduled(fixedRate = 60000)
+	@Scheduled(fixedRate = 840000)
 	public void pingApi() {
 		try {
 			Response response = makePingRequest(API_URL);
